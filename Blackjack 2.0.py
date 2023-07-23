@@ -38,18 +38,22 @@ deal_dealer()
 
 print ("You are dealt a " + str(player_hand[0]) + " and a " + str(player_hand[1]))
 print ("The dealer was dealt a " + str(dealer_hand[0]) + " and another card that is face down")
-
-if get_player_score() == "21":
+player_score = get_player_score()
+dealer_score = get_dealer_score()
+if player_score == "21":
     print ("You have 21. You win!")
+if dealer_score == "21":
+    print("The dealer has 21. The dealer wins.")
 else:
-    turn = input("Your turn! What would you like to do? (stand or hit)")
+    turn = input("Your turn! What would you like to do? (stand or hit) ")
+    print ()
 
 #placeholder number
 n = 2
+m = 2
 
 if turn == "hit":
     decision = "hit"
-    player_score = get_player_score()
     while decision == "hit":
         print ("The dealer gives you a card...")
         deal_player()
@@ -57,8 +61,9 @@ if turn == "hit":
         n+=1
         player_score = get_player_score()
         print ("Your score is now " + str(player_score))
-        if player_score >21 and "ace" in player_hand:
+        if player_score > 21 and "ace" in player_hand:
             deck["ace"] = 1
+            player_score = get_player_score()
         if player_score > 21:
             print ("You went over 21! You lose")
             print ("The dealer's second card was a " + str(dealer_hand[1]))
@@ -69,8 +74,36 @@ if turn == "hit":
             break
         else:
             decision = input("What would you like to do? (hit or stand)")
-elif turn =="stand":
-    print ("The dealer's second card is a " + str(dealer_hand[1]))
+            print ()
+
+
+print ("The dealer's second card is a " + str(dealer_hand[1]))
+dealer_score = get_dealer_score()
+print ("The dealer has a score of "+ str(dealer_score))
+
+while dealer_score < 17 and player_score < 21:
+    print ("The dealer draws a card...")
+    deal_dealer()
+    print ("The dealer drew a " + str(dealer_hand[m]))
+    m += 1
+    dealer_score = get_dealer_score()
+    if dealer_score >21 and "ace" in player_hand:
+        deck["ace"] = 1
+        dealer_score = get_dealer_score()
+if dealer_score == 21:
+    print ()
+    print ("The dealer has 21! The dealer wins.")
+if dealer_score > 21:
+    print ()
+    print ("The dealer busts! You win!")
+
+if dealer_score > player_score:
+    print ("The dealer has a higher score. The dealer wins.")
+if player_score > dealer_score:
+    print ("You have a higher score than the dealer! You win!")
+if player_score == dealer_score:
+    print ("You have the same score as the dealer. That's a push!")
+        
 
 
 
