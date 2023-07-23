@@ -5,7 +5,7 @@
 
 import random
 
-deck = {"ace":1, "2":2, "3":3, "4":4, "5":5, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10, "Jack":10, "Queen":10, "King":10}
+deck = {"ace":11, "2":2, "3":3, "4":4, "5":5, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10, "Jack":10, "Queen":10, "King":10}
 player_hand = []
 dealer_hand = []
 
@@ -29,15 +29,6 @@ def get_dealer_score():
         score += deck[item]
     return score
 
-deal_player()
-deal_player()
-print (player_hand)
-get_player_score()
-deal_dealer()
-deal_dealer()
-print (dealer_hand)
-get_dealer_score()
-
 start = input("Welcome to Blackjack! Press enter to start.")
 print ()
 deal_player()
@@ -53,9 +44,33 @@ if get_player_score() == "21":
 else:
     turn = input("Your turn! What would you like to do? (stand or hit)")
 
-if turn == "stand":
+#placeholder number
+n = 2
 
-elif turn =="hit":
+if turn == "hit":
+    decision = "hit"
+    player_score = get_player_score()
+    while decision == "hit":
+        print ("The dealer gives you a card...")
+        deal_player()
+        print ("The dealer gave you a " + str(player_hand[n])) 
+        n+=1
+        player_score = get_player_score()
+        print ("Your score is now " + str(player_score))
+        if player_score >21 and "ace" in player_hand:
+            deck["ace"] = 1
+        if player_score > 21:
+            print ("You went over 21! You lose")
+            print ("The dealer's second card was a " + str(dealer_hand[1]))
+            print ("The dealer had a score of " + str(get_dealer_score()))
+            break
+        if player_score == 21:
+            print ("You have 21! You win!")
+            break
+        else:
+            decision = input("What would you like to do? (hit or stand)")
+elif turn =="stand":
+    print ("The dealer's second card is a " + str(dealer_hand[1]))
 
 
 
