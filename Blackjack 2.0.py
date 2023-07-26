@@ -77,7 +77,7 @@ while turn == "hit":
         print ("You have 21! You win!")
         exit()
     else:
-        decision = input("What would you like to do? (hit or stand) ")
+        turn = input("What would you like to do? (hit or stand) ")
         print ()
 
 
