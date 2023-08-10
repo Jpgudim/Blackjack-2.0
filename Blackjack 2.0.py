@@ -30,6 +30,7 @@ def get_dealer_score():
         score += deck[item]
     return score
 
+
 start = input("Welcome to Blackjack! Press enter to start.")
 print ()
 deal_player()
@@ -44,6 +45,7 @@ time.sleep(1)
 player_score = get_player_score()
 dealer_score = get_dealer_score()
 if player_score == 21:
+    print()
     print ("You have 21. You win!")
     exit()
 if dealer_score == 21:
@@ -74,6 +76,7 @@ while turn == "hit":
         continue
     if player_score > 21:
         print()
+        time.sleep(1)
         print ("You went over 21! You lose")
         time.sleep(1)
         print ("The dealer's second card was a " + str(dealer_hand[1]))
@@ -92,20 +95,33 @@ while turn == "hit":
 
 
 print ("The dealer's second card is a " + str(dealer_hand[1]))
+time.sleep(1)
 dealer_score = get_dealer_score()
 print ("The dealer has a score of "+ str(dealer_score))
 
 deck["ace"] = 11
+
+if dealer_score > 21 and "ace" in dealer_hand:
+    dealer_score = 12
+    dealer_hand = []
+    deck["ace"] = 1;
+    time.sleep(1)
+    print ("The dealer has an ace, so now the dealer's score is " + str(dealer_score))
+    check = 1
+    m = 0
 
 while dealer_score < 17 and player_score < 21:
     deal_dealer()
     time.sleep(1)
     print ("The dealer drew a " + str(dealer_hand[m]))
     m += 1
-    dealer_score = get_dealer_score()
+    if check == 1:
+        dealer_score = get_dealer_score() + 12
+    else:
+        dealer_score = get_dealer_score()
     time.sleep(1)
     print ("The dealer now has a score of " + str(dealer_score))
-    if dealer_score >21 and "ace" in dealer_hand and deck["ace"] != 1:
+    if dealer_score >21 and "ace" in dealer_hand and deck["ace"] != 1 and check != 1:
         deck["ace"] = 1
         dealer_score = get_dealer_score()
         time.sleep(1)
