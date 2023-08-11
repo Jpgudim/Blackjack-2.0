@@ -33,10 +33,13 @@ def get_dealer_score():
 
 start = input("Welcome to Blackjack! Press enter to start.")
 print ()
-deal_player()
-deal_dealer()
-deal_player()
-deal_dealer()
+#deal_player()
+#deal_dealer()
+#deal_player()
+#deal_dealer()
+player_hand = ["ace", "ace"]
+dealer_hand =["ace", "ace"]
+
 
 print ("You are dealt a " + str(player_hand[0]) + " and a " + str(player_hand[1]))
 time.sleep(1)
@@ -56,24 +59,43 @@ else:
     turn = input("Your turn! What would you like to do? (stand or hit) ")
     print ()
 
-#placeholder number
+#placeholder number and check variable
 n = 2
 m = 2
+check = 0
+
+if player_score > 21 and "ace" in player_hand:
+    player_score = 12
+    player_hand = []
+    deck["ace"] = 1;
+    time.sleep(1)
+    print ("you have 2 aces, so your score is " + str(player_score))
+    check = 1
+    n = 0
 
 while turn == "hit":
     deal_player()
     time.sleep(1)
     print ("The dealer gave you a " + str(player_hand[n])) 
     n+=1
-    player_score = get_player_score()
+    if check == 1:
+        player_score = get_player_score() + 12
+    else:
+        player_score = get_player_score()
     time.sleep(1)
     print ("Your score is now " + str(player_score))
-    if player_score > 21 and "ace" in player_hand and deck["ace"] != 1:
+    if player_score > 21 and "ace" in player_hand and deck["ace"] != 1 and check != 1:
         deck["ace"] = 1
         player_score = get_player_score()
         time.sleep(1)
         print ("Luckily you have an Ace! Your score is now " + str(player_score))
-        continue
+        time.sleep(2)
+        turn = input("What would you like to do? (hit or stand) ")
+        print ()
+        if turn == "hit":
+            continue
+        elif turn =="stand":
+            break
     if player_score > 21:
         print()
         time.sleep(1)
@@ -81,7 +103,10 @@ while turn == "hit":
         time.sleep(1)
         print ("The dealer's second card was a " + str(dealer_hand[1]))
         time.sleep(1)
-        print ("The dealer had a score of " + str(get_dealer_score()))
+        if dealer_hand == ["ace","ace"]:
+            print ("The dealer had a score of 12")
+        else:
+            print ("The dealer had a score of " + str(get_dealer_score()))
         exit()
     if player_score == 21:
         print()
@@ -94,12 +119,15 @@ while turn == "hit":
         print ()
 
 
+#resetting ace value and check variable
+deck["ace"] = 11
+check = 0
+
+time.sleep(1)
 print ("The dealer's second card is a " + str(dealer_hand[1]))
 time.sleep(1)
 dealer_score = get_dealer_score()
 print ("The dealer has a score of "+ str(dealer_score))
-
-deck["ace"] = 11
 
 if dealer_score > 21 and "ace" in dealer_hand:
     dealer_score = 12
@@ -126,6 +154,7 @@ while dealer_score < 17 and player_score < 21:
         dealer_score = get_dealer_score()
         time.sleep(1)
         print ("The dealer has an ace, so now the dealer's score is " + str(dealer_score))
+        time.sleep(1)
         continue
 if dealer_score == 21:
     print ()
