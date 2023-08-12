@@ -33,19 +33,20 @@ def get_dealer_score():
 
 start = input("Welcome to Blackjack! Press enter to start.")
 print ()
-#deal_player()
-#deal_dealer()
-#deal_player()
-#deal_dealer()
-player_hand = ["ace", "ace"]
-dealer_hand =["ace", "ace"]
+deal_player()
+deal_dealer()
+deal_player()
+deal_dealer()
+
 
 
 print ("You are dealt a " + str(player_hand[0]) + " and a " + str(player_hand[1]))
 time.sleep(1)
+player_score = get_player_score()
+print ("Your score is " + str(player_score))
+time.sleep(1)
 print ("The dealer was dealt a " + str(dealer_hand[0]) + " and another card that is face down")
 time.sleep(1)
-player_score = get_player_score()
 dealer_score = get_dealer_score()
 if player_score == 21:
     print()
@@ -170,13 +171,19 @@ if dealer_score > 21:
 if dealer_score > player_score:
     print()
     time.sleep(1)
+    print ("The dealer has %s, and you have %s" % (dealer_score, player_score))
+    time.sleep(1)
     print ("The dealer has a higher score. The dealer wins.")
 if player_score > dealer_score:
     print()
     time.sleep(1)
+    print ("You have %s, and the dealer has %s" % (player_score, dealer_score))
+    time.sleep(1)
     print ("You have a higher score than the dealer! You win!")
 if player_score == dealer_score:
     print()
+    time.sleep(1)
+    print ("You have %s, and the dealer has %s" % (player_score, dealer_score))
     time.sleep(1)
     print ("You have the same score as the dealer. That's a push!")
         
