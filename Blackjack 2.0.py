@@ -9,6 +9,7 @@ import time
 deck = {"ace":11, "2":2, "3":3, "4":4, "5":5, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10, "Jack":10, "Queen":10, "King":10}
 player_hand = []
 dealer_hand = []
+valid_list = ["hit", "stand"]
 
 def deal_player():
     card = random.choice(list(deck.keys()))
@@ -58,6 +59,8 @@ if dealer_score == 21:
     exit()
 else:
     turn = input("Your turn! What would you like to do? (stand or hit) ")
+    while turn.lower() not in valid_list:
+        turn = input("Please enter a valid input (hit or stand): ")
     print ()
 
 #placeholder number and check variable
@@ -92,6 +95,8 @@ while turn == "hit":
         print ("Luckily you have an Ace! Your score is now " + str(player_score))
         time.sleep(2)
         turn = input("What would you like to do? (hit or stand) ")
+        while turn.lower() not in valid_list:
+            turn = input("Please enter a valid input (hit or stand): ")
         print ()
         if turn == "hit":
             continue
@@ -117,6 +122,8 @@ while turn == "hit":
     else:
         time.sleep(1)
         turn = input("What would you like to do? (hit or stand) ")
+        while turn.lower() not in valid_list:
+            turn = input("Please enter a valid input (hit or stand): ")
         print ()
 
 
