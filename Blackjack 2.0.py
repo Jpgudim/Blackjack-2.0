@@ -9,7 +9,11 @@ import time
 deck = {"ace":11, "2":2, "3":3, "4":4, "5":5, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10, "Jack":10, "Queen":10, "King":10}
 player_hand = []
 dealer_hand = []
+#list of valid inputs from the user
 valid_list = ["hit", "stand"]
+continue_game = "y"
+#a variable that will affect which statements are printed to the user
+continue_check = 0
 
 def deal_player():
     card = random.choice(list(deck.keys()))
@@ -31,169 +35,199 @@ def get_dealer_score():
         score += deck[item]
     return score
 
-
-start = input("Welcome to Blackjack! Press enter to start.")
-print ()
-deal_player()
-deal_dealer()
-deal_player()
-deal_dealer()
-
-
-
-print ("You are dealt a " + str(player_hand[0]) + " and a " + str(player_hand[1]))
-time.sleep(1)
-player_score = get_player_score()
-print ("Your score is " + str(player_score))
-time.sleep(1)
-print ("The dealer was dealt a " + str(dealer_hand[0]) + " and another card that is face down")
-time.sleep(1)
-dealer_score = get_dealer_score()
-if player_score == 21:
-    print()
-    print ("You have 21. You win!")
-    exit()
-if dealer_score == 21:
-    print ("The dealer's second card was a " + str(dealer_hand[1]))
-    print("The dealer has 21. The dealer wins.")
-    exit()
-else:
-    turn = input("Your turn! What would you like to do? (stand or hit) ")
-    while turn.lower() not in valid_list:
-        turn = input("Please enter a valid input (hit or stand): ")
-    print ()
-
-#placeholder number and check variable
-n = 2
-m = 2
-check = 0
-
-if player_score > 21 and "ace" in player_hand:
-    player_score = 12
+while continue_game == "y":
     player_hand = []
-    deck["ace"] = 1;
-    time.sleep(1)
-    print ("you have 2 aces, so your score is " + str(player_score))
-    check = 1
-    n = 0
-
-while turn == "hit":
-    deal_player()
-    time.sleep(1)
-    print ("The dealer gave you a " + str(player_hand[n])) 
-    n+=1
-    if check == 1:
-        player_score = get_player_score() + 12
-    else:
-        player_score = get_player_score()
-    time.sleep(1)
-    print ("Your score is now " + str(player_score))
-    if player_score > 21 and "ace" in player_hand and deck["ace"] != 1 and check != 1:
-        deck["ace"] = 1
-        player_score = get_player_score()
-        time.sleep(1)
-        print ("Luckily you have an Ace! Your score is now " + str(player_score))
-        time.sleep(2)
-        turn = input("What would you like to do? (hit or stand) ")
-        while turn.lower() not in valid_list:
-            turn = input("Please enter a valid input (hit or stand): ")
+    dealer_hand = []
+    #this if statement only prints the replay question after the program has ran once.
+    if continue_check == 1:
+        continue_game = input("Would you like to play again? (y/n): ")
+        if continue_game == "n":
+            print ("Thanks for playing!")
+            print()
+            exit()
+        elif continue_game != "y":
+            print ("Invalid input. Ending program.")
+            print()
+            exit()
+    #starting game
+    #this if statement only prints the welcome statement the first time the program has run.
+    if continue_check == 0:
+        start = input("Welcome to Blackjack! Press enter to start.")
         print ()
-        if turn == "hit":
-            continue
-        elif turn =="stand":
-            break
-    if player_score > 21:
-        print()
-        time.sleep(1)
-        print ("You went over 21! You lose")
-        time.sleep(1)
-        print ("The dealer's second card was a " + str(dealer_hand[1]))
-        time.sleep(1)
-        if dealer_hand == ["ace","ace"]:
-            print ("The dealer had a score of 12")
-        else:
-            print ("The dealer had a score of " + str(get_dealer_score()))
-        exit()
+    deal_player()
+    deal_dealer()
+    deal_player()
+    deal_dealer()
+
+    print ("You are dealt a " + str(player_hand[0]) + " and a " + str(player_hand[1]))
+    time.sleep(1)
+    player_score = get_player_score()
+    print ("Your score is " + str(player_score))
+    time.sleep(1)
+    print ("The dealer was dealt a " + str(dealer_hand[0]) + " and another card that is face down")
+    time.sleep(1)
+    dealer_score = get_dealer_score()
     if player_score == 21:
         print()
-        time.sleep(1)
-        print ("You have 21! You win!")
-        exit()
+        print ("You have 21. You win!")
+        continue_check = 1
+        break
+    if dealer_score == 21:
+        print ("The dealer's second card was a " + str(dealer_hand[1]))
+        print("The dealer has 21. The dealer wins.")
+        continue_check = 1
+        break
     else:
-        time.sleep(1)
-        turn = input("What would you like to do? (hit or stand) ")
+        turn = input("Your turn! What would you like to do? (stand or hit) ")
         while turn.lower() not in valid_list:
             turn = input("Please enter a valid input (hit or stand): ")
         print ()
 
+    #placeholder numbers and check variable to check if ace has changed value
+    n = 2
+    m = 2
+    check = 0
 
-#resetting ace value and check variable
-deck["ace"] = 11
-check = 0
+    if player_score > 21 and "ace" in player_hand:
+        player_score = 12
+        player_hand = []
+        deck["ace"] = 1;
+        time.sleep(1)
+        print ("you have 2 aces, so your score is " + str(player_score))
+        check = 1
+        n = 0
 
-time.sleep(1)
-print ("The dealer's second card is a " + str(dealer_hand[1]))
-time.sleep(1)
-dealer_score = get_dealer_score()
-print ("The dealer has a score of "+ str(dealer_score))
+    while turn == "hit":
+        deal_player()
+        time.sleep(1)
+        print ("The dealer gave you a " + str(player_hand[n])) 
+        n+=1
+        if check == 1:
+            player_score = get_player_score() + 12
+        else:
+            player_score = get_player_score()
+        time.sleep(1)
+        print ("Your score is now " + str(player_score))
+        if player_score > 21 and "ace" in player_hand and deck["ace"] != 1 and check != 1:
+            deck["ace"] = 1
+            player_score = get_player_score()
+            time.sleep(1)
+            print ("Luckily you have an Ace! Your score is now " + str(player_score))
+            time.sleep(2)
+            if player_score == 21:
+                print()
+                time.sleep(1)
+                print ("You have 21! You win!")
+                continue_check = 1
+                break
+            else:
+                turn = input("What would you like to do? (hit or stand) ")
+                while turn.lower() not in valid_list:
+                    turn = input("Please enter a valid input (hit or stand): ")
+                print ()
+                if turn == "hit":
+                    continue
+                elif turn =="stand":
+                    continue
+        if player_score > 21:
+            print()
+            time.sleep(1)
+            print ("You went over 21! You lose")
+            time.sleep(1)
+            print ("The dealer's second card was a " + str(dealer_hand[1]))
+            time.sleep(1)
+            if dealer_hand == ["ace","ace"]:
+                print ("The dealer had a score of 12")
+            else:
+                print ("The dealer had a score of " + str(get_dealer_score()))
+            continue_check = 1
+            break
+        if player_score == 21:
+            print()
+            time.sleep(1)
+            print ("You have 21! You win!")
+            continue_check = 1
+            break
+        else:
+            time.sleep(1)
+            turn = input("What would you like to do? (hit or stand) ")
+            while turn.lower() not in valid_list:
+                turn = input("Please enter a valid input (hit or stand): ")
+            print ()
 
-if dealer_score > 21 and "ace" in dealer_hand:
-    dealer_score = 12
-    dealer_hand = []
-    deck["ace"] = 1;
+
+    #resetting ace value and check variable from player turn
+    deck["ace"] = 11
+    check = 0
+
     time.sleep(1)
-    print ("The dealer has an ace, so now the dealer's score is " + str(dealer_score))
-    check = 1
-    m = 0
+    print ("The dealer's second card is a " + str(dealer_hand[1]))
+    time.sleep(1)
+    dealer_score = get_dealer_score()
+    print ("The dealer has a score of "+ str(dealer_score))
 
-while dealer_score < 17 and player_score < 21:
-    deal_dealer()
-    time.sleep(1)
-    print ("The dealer drew a " + str(dealer_hand[m]))
-    m += 1
-    if check == 1:
-        dealer_score = get_dealer_score() + 12
-    else:
-        dealer_score = get_dealer_score()
-    time.sleep(1)
-    print ("The dealer now has a score of " + str(dealer_score))
-    if dealer_score >21 and "ace" in dealer_hand and deck["ace"] != 1 and check != 1:
-        deck["ace"] = 1
-        dealer_score = get_dealer_score()
+    if dealer_score > 21 and "ace" in dealer_hand:
+        dealer_score = 12
+        dealer_hand = []
+        deck["ace"] = 1;
         time.sleep(1)
         print ("The dealer has an ace, so now the dealer's score is " + str(dealer_score))
-        time.sleep(1)
-        continue
-if dealer_score == 21:
-    print ()
-    time.sleep(1)
-    print ("The dealer has 21! The dealer wins.")
-    exit()
-if dealer_score > 21:
-    print ()
-    time.sleep(1)
-    print ("The dealer busts! You win!")
-    exit()
+        check = 1
+        m = 0
 
-if dealer_score > player_score:
-    print()
-    time.sleep(1)
-    print ("The dealer has %s, and you have %s" % (dealer_score, player_score))
-    time.sleep(1)
-    print ("The dealer has a higher score. The dealer wins.")
-if player_score > dealer_score:
-    print()
-    time.sleep(1)
-    print ("You have %s, and the dealer has %s" % (player_score, dealer_score))
-    time.sleep(1)
-    print ("You have a higher score than the dealer! You win!")
-if player_score == dealer_score:
-    print()
-    time.sleep(1)
-    print ("You have %s, and the dealer has %s" % (player_score, dealer_score))
-    time.sleep(1)
-    print ("You have the same score as the dealer. That's a push!")
-        
+    while dealer_score < 17 and player_score < 21:
+        deal_dealer()
+        time.sleep(1)
+        print ("The dealer drew a " + str(dealer_hand[m]))
+        m += 1
+        if check == 1:
+            dealer_score = get_dealer_score() + 12
+        else:
+            dealer_score = get_dealer_score()
+        time.sleep(1)
+        print ("The dealer now has a score of " + str(dealer_score))
+        if dealer_score >21 and "ace" in dealer_hand and deck["ace"] != 1 and check != 1:
+            deck["ace"] = 1
+            dealer_score = get_dealer_score()
+            time.sleep(1)
+            print ("The dealer has an ace, so now the dealer's score is " + str(dealer_score))
+            time.sleep(1)
+            continue
+    if dealer_score == 21:
+        print ()
+        time.sleep(1)
+        print ("The dealer has 21! The dealer wins.")
+        print()
+        exit()
+    if dealer_score > 21:
+        print ()
+        time.sleep(1)
+        print ("The dealer busts! You win!")
+        print()
+        exit()
+
+    if dealer_score > player_score:
+        print()
+        time.sleep(1)
+        print ("The dealer has %s, and you have %s" % (dealer_score, player_score))
+        time.sleep(1)
+        print ("The dealer has a higher score. The dealer wins.")
+        print()
+    if player_score > dealer_score:
+        print()
+        time.sleep(1)
+        print ("You have %s, and the dealer has %s" % (player_score, dealer_score))
+        time.sleep(1)
+        print ("You have a higher score than the dealer! You win!")
+        print()
+    if player_score == dealer_score:
+        print()
+        time.sleep(1)
+        print ("You have %s, and the dealer has %s" % (player_score, dealer_score))
+        time.sleep(1)
+        print ("You have the same score as the dealer. That's a push!")
+        print()
+    continue_check = 1
 
 
 
