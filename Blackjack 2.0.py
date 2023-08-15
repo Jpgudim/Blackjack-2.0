@@ -11,17 +11,16 @@ player_hand = []
 dealer_hand = []
 #list of valid inputs from the user
 valid_list = ["hit", "stand"]
-continue_game = "y"
-#a variable that will affect which statements are printed to the user
-continue_check = 0
 
 def deal_player():
     card = random.choice(list(deck.keys()))
     player_hand.append(card)
+    return player_hand
     
 def deal_dealer():
     card = random.choice(list(deck.keys()))
     dealer_hand.append(card)
+    return dealer_hand
 
 def get_player_score():
     score = 0
@@ -35,30 +34,18 @@ def get_dealer_score():
         score += deck[item]
     return score
 
-while continue_game == "y":
+def game():
+    deck = {"ace":11, "2":2, "3":3, "4":4, "5":5, "5":5, "6":6, "7":7, "8":8, "9":9, "10":10, "Jack":10, "Queen":10, "King":10}
     player_hand = []
     dealer_hand = []
-    #this if statement only prints the replay question after the program has ran once.
-    if continue_check == 1:
-        continue_game = input("Would you like to play again? (y/n): ")
-        if continue_game == "n":
-            print ("Thanks for playing!")
-            print()
-            exit()
-        elif continue_game != "y":
-            print ("Invalid input. Ending program.")
-            print()
-            exit()
-    #starting game
-    #this if statement only prints the welcome statement the first time the program has run.
-    if continue_check == 0:
-        start = input("Welcome to Blackjack! Press enter to start.")
-        print ()
-    deal_player()
-    deal_dealer()
-    deal_player()
-    deal_dealer()
-
+    #list of valid inputs from the user
+    valid_list = ["hit", "stand"]
+    print ()
+    player_hand = deal_player()
+    dealer_hand = deal_dealer()
+    player_hand = deal_player()
+    dealer_hand = deal_dealer()
+    print (player_hand)
     print ("You are dealt a " + str(player_hand[0]) + " and a " + str(player_hand[1]))
     time.sleep(1)
     player_score = get_player_score()
@@ -70,13 +57,11 @@ while continue_game == "y":
     if player_score == 21:
         print()
         print ("You have 21. You win!")
-        continue_check = 1
-        break
+        return
     if dealer_score == 21:
         print ("The dealer's second card was a " + str(dealer_hand[1]))
         print("The dealer has 21. The dealer wins.")
-        continue_check = 1
-        break
+        return
     else:
         turn = input("Your turn! What would you like to do? (stand or hit) ")
         while turn.lower() not in valid_list:
@@ -118,8 +103,7 @@ while continue_game == "y":
                 print()
                 time.sleep(1)
                 print ("You have 21! You win!")
-                continue_check = 1
-                break
+                return
             else:
                 turn = input("What would you like to do? (hit or stand) ")
                 while turn.lower() not in valid_list:
@@ -141,13 +125,12 @@ while continue_game == "y":
             else:
                 print ("The dealer had a score of " + str(get_dealer_score()))
             continue_check = 1
-            break
+            return
         if player_score == 21:
             print()
             time.sleep(1)
             print ("You have 21! You win!")
-            continue_check = 1
-            break
+            return
         else:
             time.sleep(1)
             turn = input("What would you like to do? (hit or stand) ")
@@ -198,14 +181,13 @@ while continue_game == "y":
         time.sleep(1)
         print ("The dealer has 21! The dealer wins.")
         print()
-        exit()
+        return
     if dealer_score > 21:
         print ()
         time.sleep(1)
         print ("The dealer busts! You win!")
         print()
-        exit()
-
+        return
     if dealer_score > player_score:
         print()
         time.sleep(1)
@@ -227,9 +209,26 @@ while continue_game == "y":
         time.sleep(1)
         print ("You have the same score as the dealer. That's a push!")
         print()
-    continue_check = 1
 
 
+#starting game
+start = input("Welcome to Blackjack! Press enter to start.")
+game()
+continue_game = input("Would you like to play again? (y/n): ")
+while continue_game == "y":
+    game()
+    time.second(1)
+    continue_game = input("Would you like to play again? (y/n): ")
+if continue_game == "n":
+    print()
+    time.second(1)
+    print ("Thanks for playing!")
+    print()
+elif continue_game != "y":
+    print()
+    time.second(1)
+    print ("Invalid input. Terminating program.")
+    print()
 
 
 
