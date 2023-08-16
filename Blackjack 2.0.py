@@ -45,7 +45,6 @@ def game():
     dealer_hand = deal_dealer()
     player_hand = deal_player()
     dealer_hand = deal_dealer()
-    print (player_hand)
     print ("You are dealt a " + str(player_hand[0]) + " and a " + str(player_hand[1]))
     time.sleep(1)
     player_score = get_player_score()
@@ -54,12 +53,19 @@ def game():
     print ("The dealer was dealt a " + str(dealer_hand[0]) + " and another card that is face down")
     time.sleep(1)
     dealer_score = get_dealer_score()
+    if dealer_hand[0] == "10" or dealer_hand[0] == "Jack" or dealer_hand[0] == "Queen" or dealer_hand[0] == "King":
+        print("The dealer peeks at the second card...")
+        time.sleep(1)
+        print("The dealer does not have blackjack.")
+        time.second(1)
     if player_score == 21:
         print()
         print ("You have 21. You win!")
         return
     if dealer_score == 21:
-        print ("The dealer's second card was a " + str(dealer_hand[1]))
+        print ("The dealer peeks at the second card...")
+        time.sleep(1)
+        print ("The dealer's second card is a " + str(dealer_hand[1]))
         print("The dealer has 21. The dealer wins.")
         return
     else:
