@@ -56,17 +56,17 @@ def game():
     if dealer_hand[0] == "10" or dealer_hand[0] == "Jack" or dealer_hand[0] == "Queen" or dealer_hand[0] == "King" or dealer_hand[0] =="ace":
         print("The dealer peeks at the second card...")
         time.sleep(1)
-        print("The dealer does not have blackjack.")
-        time.sleep(1)
+        if dealer_score == 21:
+            print ("The dealer's second card is a " + str(dealer_hand[1]))
+            time.sleep(1)
+            print("The dealer has 21. The dealer wins.")
+            return
+        else:
+            print("The dealer does not have blackjack.")
+            time.sleep(1)
     if player_score == 21:
         print()
         print ("You have 21. You win!")
-        return
-    if dealer_score == 21:
-        print ("The dealer peeks at the second card...")
-        time.sleep(1)
-        print ("The dealer's second card is a " + str(dealer_hand[1]))
-        print("The dealer has 21. The dealer wins.")
         return
     else:
         turn = input("Your turn! What would you like to do? (stand or hit) ")
@@ -222,6 +222,8 @@ start = input("Welcome to Blackjack! Press enter to start.")
 game()
 continue_game = input("Would you like to play again? (y/n): ")
 while continue_game == "y":
+    player_hand.clear()
+    dealer_hand.clear()
     game()
     time.sleep(1)
     continue_game = input("Would you like to play again? (y/n): ")
